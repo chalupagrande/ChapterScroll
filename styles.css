@@ -1,0 +1,30 @@
+#menu {
+  position: fixed;
+  width: 100%;
+  background-color: grey;
+  top: 0;
+}
+a{
+  text-decoration: none;
+}
+#menu a:visited,
+#menu a:focus,
+#menu a:hover,
+#menu a:active{
+  text-decoration: none;
+  color:white;
+}
+
+.active {
+  color: red !important;
+  font-weight: bold;
+}
+
+.content {
+  margin-top: 100px;
+}
+.filler{
+  width:100%;
+  border:1px solid red;
+  height:700px;
+}
