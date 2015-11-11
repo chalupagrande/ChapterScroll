@@ -4,6 +4,7 @@ var chapters;
 var chapter
 var menuOffset = 100
 var roundingOffset = 5
+var animationTime = 600
 
 
 $(document).on('ready', function(){
@@ -14,7 +15,7 @@ $(document).on('ready', function(){
   $(document).on('chapter-changed', chapterChanged )
 
   $('#menu a').on('click', function(){
-    var cl = $(this).attr('class')
+    var cl = $(this).data('chapter-target')
     var obj = getChapterOnString(cl)
     scrollToChapter(obj)
   })
@@ -37,20 +38,19 @@ function mapChapterPositions(){
 }
 
 function indexChapters(){
-  console.log('resize')
-  var results = [{key:'root', top:0, index:0}]
+  var results = [];
   //gets all elements with the class starting with 'chapter-'
-  var $chapters = $("[class^=chapter-]")
+  var $chapters = $("[data-chapter]")
   var l = $chapters.length
   for(var i = 0; i < l; i++){
     var $el = $($chapters[i])
     var temp = {}
 
-    //gets the word after 'chapter-'
-    var cl = $el.attr("class").split("-")[1]
+    //get what the chapter is set to
+    var cl = $el.data('chapter')
     temp.key = cl
     temp.top = $el.position().top
-    temp.index = i+1
+    temp.index = i
 
     /*
       {
@@ -82,23 +82,20 @@ function getScrollChapter(){
 
 function chapterChanged(){
   var ch = chapter
-  console.log(ch)
   updateMenu(ch)
 }
 
 function updateMenu(ch){
   $('#menu').find('.active').removeClass('active')
-  $('#menu').find('.'+ch.key).addClass('active')
+  $('#menu').find('[data-chapter-target$='+ch.key+']').addClass('active')
 }
 
 function scrollToChapter(ch){
   chapter = ch
-
   $('html, body').stop().animate({
      scrollTop: ch.top - menuOffset + roundingOffset
-   }, 600);
+   }, animationTime);
 
-  // $(document).trigger('chapter-changed')
 }
 
 function getChapterOnString(target){
